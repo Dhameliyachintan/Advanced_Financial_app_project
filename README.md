@@ -49,8 +49,11 @@ npm (Node Package Manager)
 
 # Installation
 Go to the Frontend folder and enter the following commands:
+
 Make sure your backend is running on localhost:4000.
+
 Run:
+
 npm install
 npm run start
 
