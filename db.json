@@ -1,0 +1,21 @@
+{
+  "registration": [
+    {
+      "id": "fb21",
+      "name": "chintan dhameliya",
+      "email": "chintandhameliya66@gmail.com",
+      "password": "Chi@99047",
+      "confirmPassword": "Chi@99047"
+    }
+  ],
+  "financialEntries": [
+    {
+      "amount": "5000",
+      "date": "2024-10-11",
+      "description": "Brief description of the transaction, e.g.",
+      "category": "Utilities",
+      "status": "Completed",
+      "id": "9cac"
+    }
+  ]
+}
