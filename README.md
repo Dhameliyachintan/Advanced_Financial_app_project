@@ -55,5 +55,6 @@ Make sure your backend is running on localhost:4000.
 Run:
 
 npm install
+
 npm run start
 
