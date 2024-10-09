@@ -9,10 +9,12 @@ import { toast, ToastContainer } from "react-toastify";
 ChartJS.register(ArcElement, Title, Tooltip, Legend);
 
 const Container = styled.div`
-    max-width: 800px;
-    margin: 1rem auto;
-    padding: 1rem;
-}
+  max-width: 800px;
+  margin: 1rem auto;
+  padding: 1rem;
+  @media (max-width: 768px) {
+    padding: 0.5rem;
+  }
 `;
 
 const TitleText = styled.h2`
@@ -33,17 +35,26 @@ const ChartContainer = styled.div`
   flex: 1;
   height: 300px;
   position: relative;
+  @media (max-width: 768px) {
+    height: 200px;
+  }
 `;
 
 const TableContainer = styled.div`
   flex: 1;
-  margin-left: 1rem; /* Add margin for spacing */
+  margin-left: 1rem;
+  @media (max-width: 768px) {
+    margin-left: 0;
+  }
 `;
 
 const FlexWrapper = styled.div`
   display: flex;
-  flex-direction: row; /* Change to row for side-by-side layout */
-  gap: 1.5rem; /* Space between chart and table */
+  flex-direction: row;
+  gap: 1.5rem;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const SearchInput = styled.input`
@@ -66,6 +77,10 @@ const Table = styled.table`
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   border-radius: 0.375rem;
   overflow: hidden;
+  @media (max-width: 768px) {
+    display: block;
+    overflow-x: auto;
+  }
 `;
 
 const TableHeader = styled.th`
@@ -124,10 +139,45 @@ const ActionButton = styled.button`
   }
 `;
 
+const PaginationContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+`;
+
+const PaginationButton = styled.button`
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+
+  &.next {
+    background-color: #48bb78;
+    &:hover {
+      background-color: #38a169;
+    }
+  }
+
+  &.prev {
+    background-color: #4299e1;
+    &:hover {
+      background-color: #3182ce;
+    }
+  }
+
+  &:disabled {
+    background-color: #cbd5e0;
+    cursor: not-allowed;
+  }
+`;
+
 const TransactionsList = () => {
   const navigate = useNavigate();
   const [transactions, setTransactions] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [transactionsPerPage] = useState(5);
 
   const fetchTransactions = async () => {
     try {
@@ -195,6 +245,16 @@ const TransactionsList = () => {
     );
   });
 
+  const indexOfLastTransaction = currentPage * transactionsPerPage;
+  const indexOfFirstTransaction = indexOfLastTransaction - transactionsPerPage;
+  const currentTransactions = filteredTransactions.slice(
+    indexOfFirstTransaction,
+    indexOfLastTransaction
+  );
+  const totalPages = Math.ceil(
+    filteredTransactions.length / transactionsPerPage
+  );
+
   const totalSpending = filteredTransactions.reduce((sum, transaction) => {
     const amount = parseFloat(transaction.amount);
     return sum + (isNaN(amount) ? 0 : amount);
@@ -233,10 +293,11 @@ const TransactionsList = () => {
     <Container>
       <TitleText>Transactions List</TitleText>
 
-      <TotalSpending>Total Spending: ${totalSpending.toFixed(2)}</TotalSpending>
-
       <FlexWrapper>
         <ChartContainer>
+          <TotalSpending>
+            Total Spending: ${totalSpending.toFixed(2)}
+          </TotalSpending>
           <Pie data={chartData} options={chartOptions} />
         </ChartContainer>
 
@@ -269,7 +330,7 @@ const TransactionsList = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredTransactions.map((transaction) => (
+              {currentTransactions.map((transaction) => (
                 <TableRow key={transaction.id}>
                   <TableCell>
                     $
@@ -311,6 +372,24 @@ const TransactionsList = () => {
               ))}
             </tbody>
           </Table>
+          <PaginationContainer>
+            <PaginationButton
+              className="prev"
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+            >
+              Previous
+            </PaginationButton>
+            <PaginationButton
+              className="next"
+              onClick={() =>
+                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+              }
+              disabled={currentPage === totalPages}
+            >
+              Next
+            </PaginationButton>
+          </PaginationContainer>
         </TableContainer>
       </FlexWrapper>
       <ToastContainer />
