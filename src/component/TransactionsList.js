@@ -9,9 +9,13 @@ import { toast, ToastContainer } from "react-toastify";
 ChartJS.register(ArcElement, Title, Tooltip, Legend);
 
 const Container = styled.div`
-  max-width: 800px;
-  margin: 1rem auto;
+  width: 100%;
+  max-width: 1200px;
+  margin: 1.5rem auto;
   padding: 1rem;
+  color: #cbd5e0; 
+  border-radius: 0.375rem;
+  text-align: start;
   @media (max-width: 768px) {
     padding: 0.5rem;
   }
@@ -29,6 +33,7 @@ const TotalSpending = styled.h3`
   font-size: 1.25rem;
   font-weight: 600;
   margin-bottom: 1rem;
+  color: black;
 `;
 
 const ChartContainer = styled.div`
@@ -43,19 +48,20 @@ const ChartContainer = styled.div`
 const TableContainer = styled.div`
   flex: 1;
   margin-left: 1rem;
+  margin-top: 70px;
   @media (max-width: 768px) {
     margin-left: 0;
   }
 `;
 
-const FlexWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 1.5rem;
-  @media (max-width: 768px) {
-    flex-direction: column;
-  }
-`;
+// const FlexWrapper = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   gap: 1.5rem;
+//   @media (max-width: 768px) {
+//     flex-direction: column;
+//   }
+// `;
 
 const SearchInput = styled.input`
   border: 1px solid #cbd5e0;
@@ -293,7 +299,7 @@ const TransactionsList = () => {
     <Container>
       <TitleText>Transactions List</TitleText>
 
-      <FlexWrapper>
+      {/* <FlexWrapper> */}
         <ChartContainer>
           <TotalSpending>
             Total Spending: ${totalSpending.toFixed(2)}
@@ -391,7 +397,7 @@ const TransactionsList = () => {
             </PaginationButton>
           </PaginationContainer>
         </TableContainer>
-      </FlexWrapper>
+      {/* </FlexWrapper> */}
       <ToastContainer />
     </Container>
   );
