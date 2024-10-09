@@ -9,9 +9,10 @@ import { toast, ToastContainer } from "react-toastify";
 ChartJS.register(ArcElement, Title, Tooltip, Legend);
 
 const Container = styled.div`
-  max-width: 800px;
-  margin: 1.5rem auto;
-  padding: 1rem;
+    max-width: 800px;
+    margin: 1rem auto;
+    padding: 1rem;
+}
 `;
 
 const TitleText = styled.h2`
